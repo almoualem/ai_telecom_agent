@@ -1,7 +1,5 @@
-import json
-from agent import run_telekom_agent
+from agent import run_telekom_agent, log_result
 
-#----- Load your usage data -----
 user_data = {
     "current_plan": "Monthly 20GB",
     "price_usd": 45,
@@ -10,16 +8,14 @@ user_data = {
     "sms_used": 300
 }
 
-#----- The instruction you want the agent to perform -----
 query = "Suggest exactly one cost improvement based on this usage."
+models_to_test = ["llama3:8b", "mistral:7b", "qwen2.5:7b"]
 
-#----- Choose your model -----
-model_name = "llama3"
+for model in models_to_test:
+    print(f"\n--- Running Telekom Agent with {model} ---")
+    answer, time_taken, prompt_version = run_telekom_agent(model, user_data, query)
+    print("Answer:", answer)
+    print("Time taken:", time_taken, "seconds")
 
-print(f"\nRunning Telekom Agent using model: {model_name}")
-
-answer, time_taken = run_telekom_agent(model_name, user_data, query)
-
-print("\n--- Agent Output ---")
-print(answer)
-print("\nTime taken:", time_taken, "seconds")
+    # Log results (ratings can be filled manually later)
+    log_result(model, prompt_version, query, answer, time_taken)

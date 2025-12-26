@@ -1,0 +1,56 @@
+[
+  {
+    "provider": "A1",
+    "name": "A1 SIMply L",
+    "data_gb": "unlimited",
+    "minutes": "unlimited",
+    "sms": "unlimited",
+    "price": 29.9,
+    "url": "https://www.a1.net/handys-tarife/tarife-ohne-bindung"
+  },
+  {
+    "provider": "A1",
+    "name": "A1 SIMply M",
+    "data_gb": "100 GB",
+    "minutes": "unlimited",
+    "sms": "unlimited",
+    "price": 24.9,
+    "url": "https://www.a1.net/handys-tarife/tarife-ohne-bindung"
+  },
+  {
+    "provider": "A1",
+    "name": "A1 SIMply S",
+    "data_gb": "60 GB",
+    "minutes": "unlimited",
+    "sms": "unlimited",
+    "price": 18.9,
+    "url": "https://www.a1.net/handys-tarife/tarife-ohne-bindung"
+  },
+  {
+    "provider": "Magenta",
+    "name": "Mobile Sim Only S",
+    "data_gb": "60 GB",
+    "minutes": null,
+    "sms": null,
+    "price": 17.9,
+    "url": "https://shop.magenta.at/handytarife-ohne-smartphone"
+  },
+  {
+    "provider": "Magenta",
+    "name": "Mobile Sim Only M",
+    "data_gb": "70 GB",
+    "minutes": null,
+    "sms": null,
+    "price": 24.9,
+    "url": "https://shop.magenta.at/handytarife-ohne-smartphone"
+  },
+  {
+    "provider": "Magenta",
+    "name": "Mobile Sim Only Unlimited",
+    "data_gb": null,
+    "minutes": null,
+    "sms": null,
+    "price": 29.9,
+    "url": "https://shop.magenta.at/handytarife-ohne-smartphone"
+  }
+]

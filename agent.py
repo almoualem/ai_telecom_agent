@@ -4,7 +4,11 @@ import os
 import json
 
 # define models to test with
-MODELS_TO_TEST = ["gpt-oss:120b-cloud"]
+MODELS_TO_TEST = ["deepseek-v3.1:671b"]
+#MODELS_TO_TEST = ["qwen2.5:7b"]
+
+Client = ollama.Client(host="https://ollama.com")
+# Client = ollama.Client(host="http://localhost:11434")
 
 def get_models_to_test():
     return MODELS_TO_TEST
@@ -118,26 +122,25 @@ def run_telekom_agent(
         )
 
     system_prompt = """
-You are a Telecom Cost Optimization Expert.
+You are a Telecom Cost Optimization Expert and must suggest new plan or keeping current plan.
 
 Rules:
-- You MUST base your recommendation ONLY on the provided tariffs context (JSON or extracted page content).
+- Get current offer details and actual usage from user_data and compare with provided tariffs from (JSON OR extracted page content). 
 - You MUST explicitly evaluate and compare tariffs from ALL providers present in the tariffs context.
-- If multiple providers offer suitable tariffs, choose the best one based on price-to-usage ratio.
 - If current_data_gb is null or 0, the current plan has UNLIMITED mobile data.
-- If there is no clearly better offer according to usage and price, recommend keeping the current plan.
-- If usage is higher than current plan even if the new price is higher, user needs a new plan (reason is: overage charges).
+- If current_price_eur is cheaper than new suggested plan price, don't suggest new plan, just keep current plan.
+- If actual usage is higher than current plan data gb even if the new price is higher, user needs a new plan (reason is: overage charges).
 - Do NOT recommend random tariffs that are not present in the provided tariffs context.
 - Do NOT add extra text outside the required output format.
 
 Output format must be exactly:
 
-Current Plan: <provide current offer details, like gb, minutes, sms, price in euro as the user entered them>
-New Plan details: <provide details of the new tariff like name, gb, minutes, sms, price>
-Recommendation: <one recommended tariff name + ISP, or "keep current plan">
-Offer Link: <get url from JSON file>
-Estimated savings: <EUR/month OR if we keep current plan "none" OR if price is higher "reduced overage costs">
-Reason: <one sentence referencing the details>
+Current Plan: <provide current offer details and actual usage that we get from user_data, like gb, minutes, sms, price in euro as the user entered them>
+Decision: <Based on rules change to a new plan OR keep current plan>
+Suggested New Plan: <Based on Decision if new tariff was suggested provide details of the new tariff like name, gb, minutes, sms, price + provider name, OR keep current plan>
+Offer Link: <Based on rules if new tariff was suggested get url from JSON file OR from actual Internet webpage that was scrapped, in case we keep crrent plan "N/A">
+Estimated savings: <Based on rules EUR/month for new plans, OR if we keep current plan "none", OR if the new price is higher but it meets usage needs "reduced overage costs">
+Reason: <Based on rules one sentence referencing the details>
 """.strip()
 
     user_prompt = f"""
@@ -150,12 +153,13 @@ Task: {query}
 """.strip()
 
     start_time = time.time()
-    response = ollama.chat(
-        model=model_name,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
+    client = Client
+    response = client.chat(
+    model=model_name,
+    messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ],
     )
     end_time = time.time()
 

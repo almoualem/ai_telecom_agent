@@ -1,5 +1,6 @@
 # Import the main agent function and the logging helper
 from agent import run_telekom_agent, log_result
+from agent import get_models_to_test
 import os
 
 #os.chdir(r"C:\Users\salam\Desktop\Ali\ai_telekom_agent")
@@ -82,7 +83,7 @@ def main():
     user_data = get_user_data()
 
     query = "Suggest exactly one cost improvement based on this usage."
-    models_to_test = ["gpt-oss:120b-cloud"]
+    models_to_test = get_models_to_test()
 
     TARIFF_SOURCE = get_tariff_source()  # "json" or "internet"
 

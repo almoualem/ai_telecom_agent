@@ -3,6 +3,12 @@ import time
 import os
 import json
 
+# define models to test with
+MODELS_TO_TEST = ["gpt-oss:120b-cloud"]
+
+def get_models_to_test():
+    return MODELS_TO_TEST
+
 # Optional (used only for source="internet")
 try:
     import requests

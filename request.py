@@ -30,7 +30,7 @@ def get_user_data():
     # current_minutes = input_float("Included minutes: ")
     # current_sms = input_float("Included SMS: ")
 
-    current_price_eur = 40
+    current_price_eur = 10
     current_data_gb = 100
     current_minutes = 1000
     current_sms = 500
@@ -82,14 +82,14 @@ def main():
     # Collect user input first
     user_data = get_user_data()
 
-    query = "Suggest exactly one cost improvement based on this usage."
+    query = "Suggest exactly one cost improvement based on this usage and price ration."
     models_to_test = get_models_to_test()
 
     TARIFF_SOURCE = get_tariff_source()  # "json" or "internet"
 
     for model in models_to_test:
         print(f"\n--- Running Telekom Agent with {model} ---")
-        print("\n🔍 We are searching for the best alternative offer based on your current plan and usage...\n")
+        print("\n🔍 We are searching for the best alternative offer based on your current plan...\n")
 
         answer, time_taken, prompt_version = run_telekom_agent(
             model,

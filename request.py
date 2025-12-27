@@ -1,6 +1,5 @@
 # Import the main agent function and the logging helper
-from agent import run_telekom_agent, log_result
-from agent import get_models_to_test
+from agent import run_telekom_agent, log_result, get_models_to_test
 import os
 
 #os.chdir(r"C:\Users\salam\Desktop\Ali\ai_telekom_agent")
@@ -107,3 +106,4 @@ def main():
 # Run only if executed directly
 if __name__ == "__main__":
     main()
+

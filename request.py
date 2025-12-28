@@ -29,7 +29,7 @@ def get_user_data():
     # current_minutes = input_float("Included minutes: ")
     # current_sms = input_float("Included SMS: ")
 
-    current_price_eur = 10
+    current_price_eur = 60
     current_data_gb = 100
     current_minutes = 1000
     current_sms = 500
@@ -40,7 +40,7 @@ def get_user_data():
     # actual_minutes_used = input_float("Actual minutes used: ")
     # actual_sms_used = input_float("Actual SMS used: ")
 
-    actual_data_usage_gb = 150
+    actual_data_usage_gb = 10
     actual_minutes_used = 300
     actual_sms_used = 10
 
@@ -106,4 +106,3 @@ def main():
 # Run only if executed directly
 if __name__ == "__main__":
     main()
-

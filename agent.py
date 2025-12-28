@@ -5,9 +5,9 @@ import json
 
 # define models to test with
 MODELS_TO_TEST = ["deepseek-v3.1:671b"]
-#MODELS_TO_TEST = ["qwen2.5:7b"]
-
 Client = ollama.Client(host="https://ollama.com")
+
+# MODELS_TO_TEST = ["qwen2.5:7b"]
 # Client = ollama.Client(host="http://localhost:11434")
 
 def get_models_to_test():

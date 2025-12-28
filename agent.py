@@ -3,9 +3,16 @@ import time
 import os
 import json
 
+os.chdir(r"C:\Users\salam\Desktop\Ali\ai_telekom_agent")
+
 # define models to test with
+os.environ["OLLAMA_HOST"] = "https://ollama.com"
+os.environ["OLLAMA_API_KEY"] = "9e2b7af975c0495bbc1321c417ed7936.YTFPhiT_82qmTAwDbkoJ-XCU"
 MODELS_TO_TEST = ["deepseek-v3.1:671b"]
-Client = ollama.Client(host="https://ollama.com")
+Client = ollama.Client(
+    host="https://ollama.com",
+    headers={"Authorization": f"Bearer {os.environ.get('OLLAMA_API_KEY', '')}"}
+)
 
 # MODELS_TO_TEST = ["qwen2.5:7b"]
 # Client = ollama.Client(host="http://localhost:11434")

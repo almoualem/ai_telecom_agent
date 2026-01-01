@@ -2,8 +2,7 @@ import ollama
 import time
 import os
 import json
-
-#   os.chdir(r"C:\Users\salam\Desktop\Ali\ai_telekom_agent")
+from datetime import datetime
 
 Client = None
 MODELS_TO_TEST = []
@@ -115,20 +114,20 @@ def run_telekom_agent(
     model_name: str,
     user_data: dict,
     query: str,
+    tariff_source: str,
     prompt_version: str = "V2",
-    tariffs_source: str = "",
     tariffs_json_path: str = "tariffs.json"
 ):
     """
-    tariffs_source:
+    tariff_source:
       - "json": read ./tariffs.json
       - "internet": fetch provider pages and extract text
     """
 
-    if tariffs_source not in {"json", "internet"}:
-        raise ValueError("tariffs_source must be 'json' or 'internet'")
+    if tariff_source not in {"json", "internet"}:
+        raise ValueError("tariff_source must be 'json' or 'internet'")
 
-    if tariffs_source == "json":
+    if tariff_source == "json":
         base_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(base_dir, tariffs_json_path)
         tariffs_payload = load_tariffs_from_json(json_path)
@@ -193,14 +192,17 @@ Task: {query}
     return response["message"]["content"], (end_time - start_time), prompt_version
 
 # Save results to a log file
-def log_result(model_name, prompt_version, query, answer, time_taken,
-               accuracy=None, clarity=None):
+def log_result(model_source, model_name, tariff_source, prompt_version, query, answer, time_taken, accuracy, clarity):
     os.makedirs("logs", exist_ok=True)
     log_path = os.path.join("logs", "results.log")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print("Logs written to:", log_path)
 
     with open(log_path, "a", encoding="utf-8") as f:
-        f.write(f"\nModel: {model_name}\n")
+        f.write(f"Timestamp: {timestamp}\n")
+        f.write(f"\nModel Source: {model_source}\n")
+        f.write(f"Model: {model_name}\n")
+        f.write(f"Tariff Source: {tariff_source}\n")
         f.write(f"Prompt Version: {prompt_version}\n")
         f.write(f"Query: {query}\n")
         f.write(f"Response: \n")
@@ -208,6 +210,10 @@ def log_result(model_name, prompt_version, query, answer, time_taken,
         f.write(f"Time taken: {time_taken:.2f} seconds\n")
         if accuracy is not None:
             f.write(f"Accuracy rating: {accuracy}/5\n")
+        else:
+            f.write(f"Accuracy rating: {accuracy}\n")
         if clarity is not None:
             f.write(f"Clarity rating: {clarity}/5\n")
+        else:
+            f.write(f"Clarity rating: {clarity}\n")
         f.write("-" * 40 + "\n")

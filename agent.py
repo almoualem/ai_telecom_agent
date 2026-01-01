@@ -3,20 +3,39 @@ import time
 import os
 import json
 
-os.chdir(r"C:\Users\salam\Desktop\Ali\ai_telekom_agent")
+#   os.chdir(r"C:\Users\salam\Desktop\Ali\ai_telekom_agent")
 
-# define models to test with
-os.environ["OLLAMA_HOST"] = "https://ollama.com"
-os.environ["OLLAMA_API_KEY"] = "9e2b7af975c0495bbc1321c417ed7936.YTFPhiT_82qmTAwDbkoJ-XCU"
-MODELS_TO_TEST = ["deepseek-v3.1:671b"]
-Client = ollama.Client(
-    host="https://ollama.com",
-    headers={"Authorization": f"Bearer {os.environ.get('OLLAMA_API_KEY', '')}"}
-)
+Client = None
+MODELS_TO_TEST = []
 
-# MODELS_TO_TEST = ["qwen2.5:7b"]
-# Client = ollama.Client(host="http://localhost:11434")
+def configure_ollama(model_source: str):
+    global Client, MODELS_TO_TEST
 
+    if model_source == "cloud":
+        os.environ["OLLAMA_HOST"] = "https://ollama.com"
+        os.environ["OLLAMA_API_KEY"] = os.getenv("OLLAMA_API_KEY")
+        print(f"Host: {os.environ.get('OLLAMA_HOST')}")
+        if not os.environ["OLLAMA_API_KEY"]:
+            raise RuntimeError("OLLAMA_API_KEY is not set")
+
+        Client = ollama.Client(
+            host="https://ollama.com",
+            headers={
+                "Authorization": f"Bearer {os.environ['OLLAMA_API_KEY']}"
+            }
+        )
+        MODELS_TO_TEST = ["deepseek-v3.1:671b"]
+
+    elif model_source == "local":
+        os.environ["OLLAMA_HOST"] = "http://localhost:11434"
+        print(f"Host: {os.environ.get('OLLAMA_HOST')}")
+        Client = ollama.Client(host="http://localhost:11434")
+        MODELS_TO_TEST = ["qwen2.5:7b"]
+
+    else:
+        raise ValueError("model_source must be 'cloud' or 'local'")
+
+# helper
 def get_models_to_test():
     return MODELS_TO_TEST
 
@@ -135,6 +154,7 @@ Rules:
 - Get current offer details and actual usage from user_data and compare with provided tariffs from (JSON OR extracted page content). 
 - You MUST explicitly evaluate and compare tariffs from ALL providers present in the tariffs context.
 - If current_data_gb is null or 0, the current plan has UNLIMITED mobile data.
+- If all user_data fields null/None, keep current plan.
 - If current_price_eur is cheaper than new suggested plan price, don't suggest new plan, just keep current plan.
 - If actual usage is higher than current plan data gb even if the new price is higher, user needs a new plan (reason is: overage charges).
 - Do NOT recommend random tariffs that are not present in the provided tariffs context.

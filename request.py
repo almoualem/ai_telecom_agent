@@ -39,25 +39,25 @@ def input_int_range(prompt: str, min_v: int, max_v: int, default=None):
 def get_user_data():
     print("Please enter your CURRENT mobile plan details (press Enter to skip any field):")
 
-    # current_price_eur = input_float("Current monthly price (€): ")
-    # current_data_gb = input_float("Included data (GB), 0 means unlimited: ")
-    # current_minutes = input_float("Included minutes: ")
-    # current_sms = input_float("Included SMS: ")
+    current_price_eur = input_float("Current monthly price (€): ")
+    current_data_gb = input_float("Included data (GB), 0 means unlimited: ")
+    current_minutes = input_float("Included minutes: ")
+    current_sms = input_float("Included SMS: ")
 
-    current_price_eur = 60
-    current_data_gb = 100
-    current_minutes = 1000
-    current_sms = 500
+    #current_price_eur = 60
+    #current_data_gb = 100
+    #current_minutes = 1000
+    #current_sms = 500
 
     print("\nPlease enter your ACTUAL monthly usage (press Enter to skip any field):")
 
-    # actual_data_usage_gb = input_float("Actual data used (GB): ")
-    # actual_minutes_used = input_float("Actual minutes used: ")
-    # actual_sms_used = input_float("Actual SMS used: ")
+    actual_data_usage_gb = input_float("Actual data used (GB): ")
+    actual_minutes_used = input_float("Actual minutes used: ")
+    actual_sms_used = input_float("Actual SMS used: ")
 
-    actual_data_usage_gb = 10
-    actual_minutes_used = 300
-    actual_sms_used = 10
+    #actual_data_usage_gb = 10
+    #actual_minutes_used = 300
+    #actual_sms_used = 10
 
     return {
         "current_price_eur": current_price_eur,
@@ -148,3 +148,4 @@ def main():
 # Run only if executed directly
 if __name__ == "__main__":
     main()
+

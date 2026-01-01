@@ -2,7 +2,7 @@
 from agent import run_telekom_agent, log_result, get_models_to_test, configure_ollama
 import os
 
-#os.chdir(r"C:\Users\salam\Desktop\Ali\ai_telekom_agent")
+os.chdir(r"C:\Users\salam\Desktop\Ali\ai_telekom_agent")
 
 # Helper function: read floats
 def input_float(prompt: str, default=None):
@@ -20,29 +20,44 @@ def input_float(prompt: str, default=None):
         except ValueError:
             print("Invalid number. Please enter a numeric value (e.g., 10 or 10.5) or press Enter to skip.")
 
+# Helper function: read human evaluation 
+def input_int_range(prompt: str, min_v: int, max_v: int, default=None):
+    while True:
+        raw = input(prompt).strip()
+        if raw == "":
+            return default
+        try:
+            v = int(raw)
+        except ValueError:
+            print(f"Invalid number. Enter an integer {min_v}-{max_v}, or press Enter to skip.")
+            continue
+        if min_v <= v <= max_v:
+            return v
+        print(f"Out of range. Enter {min_v}-{max_v}.")
+
 # Collect user tariff + usage data
 def get_user_data():
     print("Please enter your CURRENT mobile plan details (press Enter to skip any field):")
 
-    current_price_eur = input_float("Current monthly price (€): ")
-    current_data_gb = input_float("Included data (GB), 0 means unlimited: ")
-    current_minutes = input_float("Included minutes: ")
-    current_sms = input_float("Included SMS: ")
+    # current_price_eur = input_float("Current monthly price (€): ")
+    # current_data_gb = input_float("Included data (GB), 0 means unlimited: ")
+    # current_minutes = input_float("Included minutes: ")
+    # current_sms = input_float("Included SMS: ")
 
-    # current_price_eur = 60
-    # current_data_gb = 100
-    # current_minutes = 1000
-    # current_sms = 500
+    current_price_eur = 60
+    current_data_gb = 100
+    current_minutes = 1000
+    current_sms = 500
 
     print("\nPlease enter your ACTUAL monthly usage (press Enter to skip any field):")
 
-    actual_data_usage_gb = input_float("Actual data used (GB): ")
-    actual_minutes_used = input_float("Actual minutes used: ")
-    actual_sms_used = input_float("Actual SMS used: ")
+    # actual_data_usage_gb = input_float("Actual data used (GB): ")
+    # actual_minutes_used = input_float("Actual minutes used: ")
+    # actual_sms_used = input_float("Actual SMS used: ")
 
-    # actual_data_usage_gb = 10
-    # actual_minutes_used = 300
-    # actual_sms_used = 10
+    actual_data_usage_gb = 10
+    actual_minutes_used = 300
+    actual_sms_used = 10
 
     return {
         "current_price_eur": current_price_eur,
@@ -103,11 +118,11 @@ def main():
     user_data = get_user_data()
     query = "Suggest exactly one cost improvement based on this usage and price ration."
 
-    # NEW: model source selection
+    # model source selection
     model_source = get_model_source()
     configure_ollama(model_source)
 
-    TARIFF_SOURCE = get_tariff_source()
+    tariff_source = get_tariff_source()
     models_to_test = get_models_to_test()
 
     for model in models_to_test:
@@ -117,13 +132,18 @@ def main():
             model,
             user_data,
             query,
-            tariffs_source=TARIFF_SOURCE
+            tariff_source
         )
 
         print(answer)
         print("Time taken:", time_taken, "seconds")
 
-        log_result(model, prompt_version, query, answer, time_taken)
+        # Human evaluation AFTER seeing the result
+        print("\nPlease help us evaluate the result (rate from 1 to 5):")
+        accuracy = input_int_range("Accuracy (1-5, Enter to skip): ", 1, 5, default=None)
+        clarity  = input_int_range("Clarity  (1-5, Enter to skip): ", 1, 5, default=None)
+
+        log_result(model_source, model, tariff_source, prompt_version, query, answer, time_taken, accuracy, clarity)
 
 # Run only if executed directly
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # AI Telecom Agent (Ollama Project)
 
-This project demonstrates how to use [Ollama](https://ollama.com) with Python to optimize telecom costs.
+This project explores the feasibility of a Telecom Provider Agent that leverages a local/cloud LLM to analyze user usage data and compare it against available telecom tariffs. The goal is to recommend cost improvements while providing clear reasoning and ensuring full reproducibility of results.
 
 ## Requirements
 - Python >= 3.12

@@ -14,6 +14,7 @@ def configure_ollama(model_source: str):
         os.environ["OLLAMA_HOST"] = "https://ollama.com"
         os.environ["OLLAMA_API_KEY"] = os.getenv("OLLAMA_API_KEY")
         print(f"Host: {os.environ.get('OLLAMA_HOST')}")
+        print(f"API: {os.environ.get('OLLAMA_API_KEY')}")
         if not os.environ["OLLAMA_API_KEY"]:
             raise RuntimeError("OLLAMA_API_KEY is not set")
 
@@ -80,8 +81,7 @@ def _fetch_html(url: str, timeout_s: int = 20) -> str:
 # Load tariffs by scraping websites
 def load_tariffs_from_internet() -> dict:
     """
-    Best-effort scrape: downloads HTML and extracts text blocks that likely contain tariff info.
-    We keep it simple and robust (no site-specific brittle selectors).
+    downloads HTML and extracts text blocks that likely contain tariff info.
     """
     html_map = {k: _fetch_html(v) for k, v in PROVIDER_URLS.items()}
     extracted = {}
@@ -153,6 +153,8 @@ Rules:
 - Get current offer details and actual usage from user_data and compare with provided tariffs from (JSON OR extracted page content). 
 - You MUST explicitly evaluate and compare tariffs from ALL providers present in the tariffs context.
 - If current_data_gb is null or 0, the current plan has UNLIMITED mobile data.
+- If current_minutes is null or 0, the current plan has UNLIMITED minutes.
+- If current_sms is null or 0, the current plan has UNLIMITED SMSs.
 - If all user_data fields null/None, keep current plan.
 - If current_price_eur is cheaper than new suggested plan price, don't suggest new plan, just keep current plan.
 - If actual usage is higher than current plan data gb even if the new price is higher, user needs a new plan (reason is: overage charges).
@@ -164,7 +166,7 @@ Output format must be exactly:
 Current Plan: <provide current offer details and actual usage that we get from user_data, like gb, minutes, sms, price in euro as the user entered them>
 Decision: <Based on rules change to a new plan OR keep current plan>
 Suggested New Plan: <Based on Decision if new tariff was suggested provide details of the new tariff like name, gb, minutes, sms, price + provider name, OR keep current plan>
-Offer Link: <Based on rules if new tariff was suggested get url from JSON file OR from actual Internet webpage that was scrapped, in case we keep crrent plan "N/A">
+Offer Link: <Based on rules if new tariff was suggested get url from JSON file OR from actual Internet webpage that was scrapped, in case we keep current plan "N/A">
 Estimated savings: <Based on rules EUR/month for new plans, OR if we keep current plan "none", OR if the new price is higher but it meets usage needs "reduced overage costs">
 Reason: <Based on rules one sentence referencing the details>
 """.strip()

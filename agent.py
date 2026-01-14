@@ -158,6 +158,7 @@ Rules:
 - If all user_data fields null/None, keep current plan.
 - If current_price_eur is cheaper than new suggested plan price, don't suggest new plan, just keep current plan.
 - If actual usage is higher than current plan data gb even if the new price is higher, user needs a new plan (reason is: overage charges).
+- Suggested New Plan should cover the actual_data_usage_gb
 - Do NOT recommend random tariffs that are not present in the provided tariffs context.
 - Do NOT add extra text outside the required output format.
 
@@ -193,6 +194,17 @@ Task: {query}
 
     return response["message"]["content"], (end_time - start_time), prompt_version
 
+# 
+def format_duration(seconds: float) -> str:
+    if seconds < 60:
+        return f"{seconds:.2f} seconds"
+    elif seconds < 3600:
+        minutes = seconds / 60
+        return f"{minutes:.2f} minutes"
+    else:
+        hours = seconds / 3600
+        return f"{hours:.2f} hours"
+
 # Save results to a log file
 def log_result(model_source, model_name, tariff_source, prompt_version, query, answer, time_taken, accuracy, clarity):
     os.makedirs("logs", exist_ok=True)
@@ -209,7 +221,7 @@ def log_result(model_source, model_name, tariff_source, prompt_version, query, a
         f.write(f"Query: {query}\n")
         f.write(f"Response: \n")
         f.write(f"{answer}\n")
-        f.write(f"Time taken: {time_taken:.2f} seconds\n")
+        f.write(f"Time taken: {format_duration(time_taken)}\n")
         if accuracy is not None:
             f.write(f"Accuracy rating: {accuracy}/5\n")
         else:

@@ -1,5 +1,5 @@
 # Import the main agent function and the logging helper
-from agent import run_telekom_agent, log_result, get_models_to_test, configure_ollama
+from agent import run_telekom_agent, log_result, get_models_to_test, configure_ollama, format_duration
 import os
 
 # Helper function: read floats
@@ -37,25 +37,25 @@ def input_int_range(prompt: str, min_v: int, max_v: int, default=None):
 def get_user_data():
     print("Please enter your CURRENT mobile plan details (press Enter to skip any field):")
 
-    # current_price_eur = input_float("Current monthly price (€): ")
-    # current_data_gb = input_float("Included data in GB (0 = unlimited): ")
-    # current_minutes = input_float("Included minutes (0 = unlimited): ")
-    # current_sms = input_float("Included SMS (0 = unlimited): ")
+    current_price_eur = input_float("Current monthly price (€): ")
+    current_data_gb = input_float("Included data in GB (0 = unlimited): ")
+    current_minutes = input_float("Included minutes (0 = unlimited): ")
+    current_sms = input_float("Included SMS (0 = unlimited): ")
 
-    current_price_eur = 60
-    current_data_gb = 100
-    current_minutes = 1000
-    current_sms = 500
+    # current_price_eur = 20
+    # current_data_gb = 10
+    # current_minutes = 0
+    # current_sms = 0
 
     print("\nPlease enter your ACTUAL monthly usage (press Enter to skip any field):")
 
-    # actual_data_usage_gb = input_float("Actual data used (GB): ")
-    # actual_minutes_used = input_float("Actual minutes used: ")
-    # actual_sms_used = input_float("Actual SMS used: ")
+    actual_data_usage_gb = input_float("Actual data used (GB): ")
+    actual_minutes_used = input_float("Actual minutes used: ")
+    actual_sms_used = input_float("Actual SMS used: ")
 
-    actual_data_usage_gb = 10
-    actual_minutes_used = 300
-    actual_sms_used = 10
+    # actual_data_usage_gb = 100
+    # actual_minutes_used = 30
+    # actual_sms_used = 10
 
     return {
         "current_price_eur": current_price_eur,
@@ -134,7 +134,7 @@ def main():
         )
 
         print(answer)
-        print("Time taken:", time_taken, "seconds")
+        print("Time taken:", format_duration(time_taken))
 
         # Human evaluation AFTER seeing the result
         print("\nPlease help us evaluate the result (rate from 1 to 5):")

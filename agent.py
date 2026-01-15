@@ -206,7 +206,7 @@ def format_duration(seconds: float) -> str:
         return f"{hours:.2f} hours"
 
 # Save results to a log file
-def log_result(model_source, model_name, tariff_source, prompt_version, query, answer, time_taken, accuracy, clarity):
+def log_result(model_source, model_name, tariff_source, prompt_version, query,user_data, answer, time_taken, accuracy, clarity):
     os.makedirs("logs", exist_ok=True)
     log_path = os.path.join("logs", "results.log")
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -219,6 +219,7 @@ def log_result(model_source, model_name, tariff_source, prompt_version, query, a
         f.write(f"Tariff Source: {tariff_source}\n")
         f.write(f"Prompt Version: {prompt_version}\n")
         f.write(f"Query: {query}\n")
+        f.write(f"Current user data: {user_data}\n")
         f.write(f"Response: \n")
         f.write(f"{answer}\n")
         f.write(f"Time taken: {format_duration(time_taken)}\n")

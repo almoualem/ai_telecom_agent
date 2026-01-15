@@ -141,7 +141,7 @@ def main():
         accuracy = input_int_range("Accuracy (1-5, Enter to skip): ", 1, 5, default=None)
         clarity  = input_int_range("Clarity  (1-5, Enter to skip): ", 1, 5, default=None)
 
-        log_result(model_source, model, tariff_source, prompt_version, query, answer, time_taken, accuracy, clarity)
+        log_result(model_source, model, tariff_source, prompt_version, query,user_data, answer, time_taken, accuracy, clarity)
 
 # Run only if executed directly
 if __name__ == "__main__":

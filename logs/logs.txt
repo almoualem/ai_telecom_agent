@@ -5,6 +5,7 @@ Model: qwen2.5:7b
 Tariff Source: json
 Prompt Version: V2
 Query: Suggest exactly one cost improvement based on this usage and price ration.
+Current user data: {'current_price_eur': 60, 'current_data_gb': 100, 'current_minutes': 1000, 'current_sms': 500, 'actual_data_usage_gb': 10, 'actual_minutes_used': 300, 'actual_sms_used': 10}
 Response: 
 Current Plan: 
 - Current offer: A1 SIMply M
@@ -31,6 +32,7 @@ Model: deepseek-v3.1:671b
 Tariff Source: json
 Prompt Version: V2
 Query: Suggest exactly one cost improvement based on this usage and price ration.
+Current user data: {'current_price_eur': 60, 'current_data_gb': 100, 'current_minutes': 1000, 'current_sms': 500, 'actual_data_usage_gb': 10, 'actual_minutes_used': 300, 'actual_sms_used': 10}
 Response: 
 Current Plan: price 60 EUR, includes 100 GB data, 1000 minutes, 500 SMS, actual usage: 10 GB data, 300 minutes, 10 SMS
 Decision: change to a new plan
@@ -49,6 +51,7 @@ Model: deepseek-v3.1:671b
 Tariff Source: internet
 Prompt Version: V2
 Query: Suggest exactly one cost improvement based on this usage and price ration.
+Current user data: {'current_price_eur': 60, 'current_data_gb': 100, 'current_minutes': 1000, 'current_sms': 500, 'actual_data_usage_gb': 10, 'actual_minutes_used': 300, 'actual_sms_used': 10}
 Response: 
 Current Plan: 100 GB, 1000 minutes, 500 SMS, €60/month; Actual usage: 10 GB, 300 minutes, 10 SMS
 Decision: Change to a new plan
@@ -67,6 +70,7 @@ Model: deepseek-v3.1:671b
 Tariff Source: json
 Prompt Version: V2
 Query: Suggest exactly one cost improvement based on this usage and price ration.
+Current user data: {'current_price_eur': 10, 'current_data_gb': 100, 'current_minutes': 1000, 'current_sms': 500, 'actual_data_usage_gb': 60, 'actual_minutes_used': 300, 'actual_sms_used': 10}
 Response: 
 Current Plan: 100 GB data, 1000 minutes, 500 SMSs, €10 price | Actual Usage: 60 GB data, 300 minutes, 10 SMSs
 Decision: keep current plan
@@ -85,6 +89,7 @@ Model: deepseek-v3.1:671b
 Tariff Source: json
 Prompt Version: V2
 Query: Suggest exactly one cost improvement based on this usage and price ration.
+Current user data: {'current_price_eur': 10, 'current_data_gb': 10, 'current_minutes': 1000, 'current_sms': 500, 'actual_data_usage_gb': 30, 'actual_minutes_used': 300, 'actual_sms_used': 10}
 Response: 
 Current Plan: 10 GB data, 1000 minutes, 500 SMS, €10 price; actual usage: 30 GB data, 300 minutes, 10 SMS
 Decision: change to a new plan
@@ -103,6 +108,7 @@ Model: deepseek-v3.1:671b
 Tariff Source: json
 Prompt Version: V2
 Query: Suggest exactly one cost improvement based on this usage and price ration.
+Current user data: {'current_price_eur': 20, 'current_data_gb': 10, 'current_minutes': 0, 'current_sms': 0, 'actual_data_usage_gb': 100, 'actual_minutes_used': 30, 'actual_sms_used': 10}
 Response: 
 Current Plan: 10 GB data, unlimited minutes, unlimited SMS, €20/month; Actual usage: 100 GB data, 30 minutes, 10 SMS
 Decision: change to a new plan
@@ -113,4 +119,23 @@ Reason: The actual data usage of 100 GB exceeds the current plan's 10 GB limit a
 Time taken: 2.05 seconds
 Accuracy rating: 5/5
 Clarity rating: 5/5
+----------------------------------------
+Timestamp: 2026-01-15 10:58:53
+
+Model Source: cloud
+Model: deepseek-v3.1:671b
+Tariff Source: json
+Prompt Version: V2
+Query: Suggest exactly one cost improvement based on this usage and price ration.
+Current user data: {'current_price_eur': 20, 'current_data_gb': 10, 'current_minutes': 0, 'current_sms': 0, 'actual_data_usage_gb': 100, 'actual_minutes_used': 30, 'actual_sms_used': 10}
+Response: 
+Current Plan: price=20 EUR, data=10 GB, minutes=unlimited, sms=unlimited; Actual usage: data=100 GB, minutes=30, sms=10
+Decision: change to a new plan
+Suggested New Plan: provider=A1, name=A1 SIMply M, data_gb=100 GB, minutes=unlimited, sms=unlimited, price=24.9 EUR
+Offer Link: https://www.a1.net/handys-tarife/tarife-ohne-bindung
+Estimated savings: reduced overage costs
+Reason: The user's actual data usage of 100 GB significantly exceeds their current 10 GB plan, and the A1 SIMply M plan provides sufficient data at a small price increase to avoid high overage charges.
+Time taken: 3.25 seconds
+Accuracy rating: 5/5
+Clarity rating: 4/5
 ----------------------------------------
